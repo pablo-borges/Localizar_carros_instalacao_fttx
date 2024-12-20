@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Veículo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        .dashboard {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .dashboard div {
+            margin: 10px 0;
+            font-size: 1.2em;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #result {
+            margin-top: 20px;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            background: #ccc;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard">
+            <div id="carrosSaoLeopoldo">Carros em São Leopoldo: 0</div>
+            <div id="carrosCanoas">Carros em Canoas: 0</div>
+        </div>
+        <h2>Consulta veículos Sebratel</h2>
+        <form id="placaForm">
+            <input type="text" id="placaInput" placeholder="Digite parte da placa (ex: SYM3J)" required>
+            <button type="button" onclick="consultarVeiculo()">Consultar</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // Banco de dados com todos os carros e informações
+        const bancoDeDados = {
+            "SYM3J77": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Thailor Gabriel Luz Machado", "Anderson Costa de Souza"] },
+    "SYM3J05": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Eduardo de Souza Fernande", "Igor Alexandre Nunes Firmino"] },
+    "SYM4A56": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Leonardo Peixoto Escarcel", "Anderson Soares Dias"] },
+    "SYM3J01": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Nikolas João Scheeren Motta", "Fabio Ferreira de Oliveira Junior"] },
+    "SYM3J34": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Clovis Alessandro da Silva", "Kanã Rodrigues"] },
+    "SYM-3J86": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Valdenir de Oliveira", "Denner Alves"] },
+    "SYM-3I74": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Wellington Raphael Taborda da Silveira", "Jairo Valada de Oliveira"] },
+    "SEM CARRO": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Cassio Valmir Ferreira Ramos", "Matheus Lopes Lemos"] },
+    "SYM3J56": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Maicon Rangel de Mattos", "Francisco Javier"] },
+    "SYM3J90": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Jorge Murilo da Silva Junior", "João Osório"] },
+    "SYM4A76": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["André Fernando dos Santos", "Lucas Sesterhenn de Oliveira"] },
+    "SYM3J85": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Adriano dos Santos", "Jacson de Oliveira Rangel"] },
+    "SYM4A24": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Gabriel Rocha de Medeiros", "Kauan Gomes de Freita"] },
+    "SYM4A05": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Luiz Felipe Hack", "Jeferson Mateus Boava Rodrigues"] },
+    "SYM3I57": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Anderson Silveira de Matos", "Willian dos Santos de Aruda"] },
+    "SYM3J55": { setor: "Instalação FTTX CANOAS", tecnicos: ["ELIEL RIBEIRO MACHADO", "WILLIAN CRUZ DA ROSA"] },
+    "SYM3J80": { setor: "Instalação FTTX CANOAS", tecnicos: ["JOÃO PEDRO CASTRO DA CONCEIÇÃO", "MARCELO MENDES BRITO"] },
+    "SYM3J40": { setor: "Instalação FTTX CANOAS", tecnicos: ["MARCOS WESLEY ALVES RODRIGUES", "MARCOS AURÉLIO BUENO JUNIOR"] },
+    "SYL1E02": { setor: "Instalação FTTX CANOAS", tecnicos: ["JEAN GABRIEL ZANETTI", "GUILHERME DUARTE DE SOUZA"] },
+    "SYM3J70": { setor: "Instalação FTTX CANOAS", tecnicos: ["GABRIEL OLIVEIRA FRANCO", "GABRIEL SILVA DE MORAES"] },
+    "SYL7C98": { setor: "Instalação FTTX CANOAS", tecnicos: ["ROSALVO GONÇALVES VILA", "MARCOS PAULO DE ABREU"] },
+    "SYM3I87": { setor: "Instalação FTTX CANOAS", tecnicos: ["JEAN DE SOUZA PEREIRA", "LUCAS DE SOUZA PEREIRA"] },
+    "SYL7D91": { setor: "Instalação FTTX CANOAS", tecnicos: ["DJONATAN", "FELIPE DA SILVEIRA RIBEIRO"] },
+    "SYM3I80": { setor: "Instalação FTTX CANOAS", supervisor: ["PABLO BORGES"] },
+    "SYM4A52": { setor: "Instalação FTTX CANOAS", tecnicos: ["JOÃO VITOR LOPES DA SILVA"] },
+    "SYM3J79": { setor: "Instalação FTTX CANOAS", tecnicos: ["GABRIEL HEBERLE DE SOUZA", "JOAO VITOR SILVA BRITO"] },
+    "SYL1D98": { setor: "Instalação FTTX CANOAS", tecnicos: ["Vai para São Leopoldo"] },
+    "SYM3I70": { setor: "Instalação FTTX CANOAS", tecnicos: ["HELSON DE OLIVEIRA FRITSCHER", "ISMAEL CARNEIRO DA ROSA"] },
+    "SYM3J07": { setor: "Instalação FTTX CANOAS", tecnicos: ["LUCAS CAMARGO DOS ANJOS", "DIEGO MALAQUIAS"] },
+    "SYM3J71": { setor: "Instalação FTTX CANOAS", tecnicos: ["ANDERSON FRANCISCO", "LUCAS LORENÇO"] },
+    "SYL7C97": { setor: "Instalação FTTX CANOAS", tecnicos: ["IGOR GOMES MARTINS", "CARLOS AUGUSTO GARCIA DE ANDRADE"] },
+    "SYM3J82": { setor: "Instalação FTTX CANOAS", auxSupervisao: ["LUCAS DUARTE DE SOUZA"] },
+    "SYM3J29": { setor: "Instalação FTTX CANOAS", tecnicos: ["VICTOR DA SILVA LYRA", "MARCELO MACHADO MUNHOZ JUNIOR"] },
+    "SYM3I59": { setor: "Instalação FTTX CANOAS", tecnicos: ["Vai para São Leopoldo"] },
+    "SYM3I60": { setor: "Instalação FTTX CANOAS", tecnicos: ["VINICIUS SIMOES DE VARGAS"] },
+    "SYM4A53": { setor: "Instalação FTTX CANOAS", tecnicos: ["DAVI LAMB"] },
+    "SYM4E16": { setor: "Instalação FTTX CANOAS", tecnicos: ["RENATO RANIELI BARRETO FREITAS"] },
+    "SYM4A61": { setor: "Instalação FTTX CANOAS", tecnicos: ["ALEXSANDRO MOREIRA DOS SANTOS"] },
+    "SYM3J65": { setor: "Instalação FTTX CANOAS", supervisor: ["LUIS FELIPE N. ARANDA"] },
+    "SYM3J09": { setor: "Instalação FTTX CANOAS", tecnicos: ["RICARDO DANIEL"] }
+        };
+
+        // Atualiza o dashboard com a quantidade de veículos
+        function atualizarDashboard() {
+            const carrosSaoLeopoldo = Object.values(bancoDeDados).filter(dado => dado.setor.includes("SÃO LEOPOLDO")).length;
+            const carrosCanoas = Object.values(bancoDeDados).filter(dado => dado.setor.includes("CANOAS")).length;
+
+            document.getElementById("carrosSaoLeopoldo").textContent = `Carros em São Leopoldo: ${carrosSaoLeopoldo}`;
+            document.getElementById("carrosCanoas").textContent = `Carros em Canoas: ${carrosCanoas}`;
+        }
+
+        // Função para consultar o veículo
+        function consultarVeiculo() {
+            const placaInput = document.getElementById("placaInput").value.trim().toUpperCase();
+            const resultDiv = document.getElementById("result");
+
+            // Limpa resultados anteriores
+            resultDiv.innerHTML = "";
+
+            if (!placaInput) {
+                resultDiv.innerHTML = `<p class="error">Por favor, digite parte de uma placa!</p>`;
+                return;
+            }
+
+            // Filtra placas que contêm os caracteres digitados
+            const resultados = Object.keys(bancoDeDados).filter(placa => placa.includes(placaInput));
+
+            if (resultados.length === 0) {
+                resultDiv.innerHTML = `<p class="error">Nenhum veículo encontrado!</p>`;
+            } else {
+                // Exibe os resultados encontrados
+                resultados.forEach(placa => {
+                    const dados = bancoDeDados[placa];
+                    let detalhes = `<p class="success"><strong>Veículo:</strong> ${placa}</p>
+                                    <p><strong>Setor:</strong> ${dados.setor}</p>`;
+
+                    // Exibe técnicos, supervisores ou auxiliares, se disponíveis
+                    if (dados.tecnicos) {
+                        detalhes += `<p><strong>Técnicos:</strong> ${dados.tecnicos.join(", ")}</p>`;
+                    }
+                    if (dados.supervisor) {
+                        detalhes += `<p><strong>Supervisor:</strong> ${dados.supervisor.join(", ")}</p>`;  // Corrigido para 'supervisor'
+                    }
+                    if (dados.auxSupervisao) {
+                        detalhes += `<p><strong>AUX Supervisão:</strong> ${dados.auxSupervisao.join(", ")}</p>`; // Corrigido para 'auxSupervisao'
+                    }
+
+                    resultDiv.innerHTML += `${detalhes}<hr>`;
+                });
+            }
+        }
+
+        // Inicializa o dashboard ao carregar a página
+        atualizarDashboard();
+    </script>
+</body>
+</html>
