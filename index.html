@@ -97,9 +97,11 @@
             <h1>Consulta de Veículos - Instalação Sebratel</h1>
         </header>
         <div class="dashboard">
+		
+		<div><h2>Carros nas Bases </h2>
             <div id="carrosSaoLeopoldo">Carros em São Leopoldo: 0</div>
             <div id="carrosCanoas">Carros em Canoas: 0</div>
-        </div>
+       </div></div>
         <div class="form-section">
             <h2>Informe a placa do veículo ou insira qualquer caractere relacionado à placa para realizar a consulta.</h2>
             <form id="placaForm">
@@ -163,8 +165,8 @@
             const carrosSaoLeopoldo = Object.values(bancoDeDados).filter(dado => dado.setor.includes("SÃO LEOPOLDO")).length;
             const carrosCanoas = Object.values(bancoDeDados).filter(dado => dado.setor.includes("CANOAS")).length;
 
-            document.getElementById("carrosSaoLeopoldo").textContent = `Carros em São Leopoldo: ${carrosSaoLeopoldo}`;
-            document.getElementById("carrosCanoas").textContent = `Carros em Canoas: ${carrosCanoas}`;
+            document.getElementById("carrosSaoLeopoldo").textContent = `São Leopoldo: ${carrosSaoLeopoldo}`;
+            document.getElementById("carrosCanoas").textContent = `Canoas: ${carrosCanoas}`;
         }
 
         // Função para consultar o veículo
