@@ -1,60 +1,80 @@
-<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta de Veículo</title>
+    <title>Consulta de Veículo - Sebratel</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
+            background-color: #f1f4f9;
             color: #333;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
         }
         .container {
-            max-width: 600px;
-            margin: auto;
+            max-width: 700px;
+            margin: 50px auto;
             background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
-        h2 {
+        header {
+            background: #004080;
+            color: #fff;
+            padding: 20px;
             text-align: center;
         }
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
         .dashboard {
+            display: flex;
+            justify-content: space-around;
             background-color: #007bff;
             color: white;
             padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            font-size: 1.2em;
             text-align: center;
         }
         .dashboard div {
-            margin: 10px 0;
-            font-size: 1.2em;
+            flex: 1;
+            margin: 0 10px;
         }
-        input {
+        .form-section {
+            padding: 20px;
+        }
+        .form-section h2 {
+            text-align: center;
+			font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #004080;
+        }
+        input[type="text"] {
             width: 100%;
             padding: 10px;
-            margin: 10px 0;
+            margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            font-size: 1em;
         }
         button {
             width: 100%;
-            background-color: #28a745;
-            color: white;
-            border: none;
             padding: 10px;
-            cursor: pointer;
+            background: #28a745;
+            border: none;
             border-radius: 5px;
+            font-size: 1em;
+            color: white;
+            cursor: pointer;
         }
         button:hover {
-            background-color: #218838;
+            background: #218838;
         }
         #result {
             margin-top: 20px;
+            font-size: 1.1em;
         }
         .error {
             color: red;
@@ -62,27 +82,36 @@
         .success {
             color: green;
         }
-        hr {
-            border: 0;
-            height: 1px;
-            background: #ccc;
-            margin: 20px 0;
+        footer {
+            background: #f1f4f9;
+            color: #666;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.9em;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <header>
+            <h1>Consulta de Veículos - Instalação Sebratel</h1>
+        </header>
         <div class="dashboard">
             <div id="carrosSaoLeopoldo">Carros em São Leopoldo: 0</div>
             <div id="carrosCanoas">Carros em Canoas: 0</div>
         </div>
-        <h2>Consulta veículos Sebratel</h2>
-        <form id="placaForm">
-            <input type="text" id="placaInput" placeholder="Digite parte da placa (ex: SYM3J)" required>
-            <button type="button" onclick="consultarVeiculo()">Consultar</button>
-        </form>
-        <div id="result"></div>
+        <div class="form-section">
+            <h2>Informe a placa do veículo ou insira qualquer caractere relacionado à placa para realizar a consulta.</h2>
+            <form id="placaForm">
+                <input type="text" id="placaInput" placeholder="Exemplo: SYM3J77 ou 77" required>
+                <button type="button" onclick="consultarVeiculo()">Consultar</button>
+            </form>
+            <div id="result"></div>
+        </div>
     </div>
+    <footer>
+        © 2024 Sebratel - Desenvolvido por Pablo Borges
+    </footer>
 
     <script>
         // Banco de dados com todos os carros e informações
@@ -113,14 +142,14 @@
     "SYM3I80": { setor: "Instalação FTTX CANOAS", supervisor: ["PABLO BORGES"] },
     "SYM4A52": { setor: "Instalação FTTX CANOAS", tecnicos: ["JOÃO VITOR LOPES DA SILVA"] },
     "SYM3J79": { setor: "Instalação FTTX CANOAS", tecnicos: ["GABRIEL HEBERLE DE SOUZA", "JOAO VITOR SILVA BRITO"] },
-    "SYL1D98": { setor: "Instalação FTTX CANOAS", tecnicos: ["Vai para São Leopoldo"] },
+    "SYL1D98": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Carro de Canoas, foi emprestado para São Leopoldo"] },
     "SYM3I70": { setor: "Instalação FTTX CANOAS", tecnicos: ["HELSON DE OLIVEIRA FRITSCHER", "ISMAEL CARNEIRO DA ROSA"] },
     "SYM3J07": { setor: "Instalação FTTX CANOAS", tecnicos: ["LUCAS CAMARGO DOS ANJOS", "DIEGO MALAQUIAS"] },
     "SYM3J71": { setor: "Instalação FTTX CANOAS", tecnicos: ["ANDERSON FRANCISCO", "LUCAS LORENÇO"] },
     "SYL7C97": { setor: "Instalação FTTX CANOAS", tecnicos: ["IGOR GOMES MARTINS", "CARLOS AUGUSTO GARCIA DE ANDRADE"] },
     "SYM3J82": { setor: "Instalação FTTX CANOAS", auxSupervisao: ["LUCAS DUARTE DE SOUZA"] },
     "SYM3J29": { setor: "Instalação FTTX CANOAS", tecnicos: ["VICTOR DA SILVA LYRA", "MARCELO MACHADO MUNHOZ JUNIOR"] },
-    "SYM3I59": { setor: "Instalação FTTX CANOAS", tecnicos: ["Vai para São Leopoldo"] },
+    "SYM3I59": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Carro de Canoas, foi emprestado para São Leopoldo"] },
     "SYM3I60": { setor: "Instalação FTTX CANOAS", tecnicos: ["VINICIUS SIMOES DE VARGAS"] },
     "SYM4A53": { setor: "Instalação FTTX CANOAS", tecnicos: ["DAVI LAMB"] },
     "SYM4E16": { setor: "Instalação FTTX CANOAS", tecnicos: ["RENATO RANIELI BARRETO FREITAS"] },
