@@ -20,36 +20,48 @@
             overflow: hidden;
         }
         header {
-            background: #004080;
+            background: #ec3426; /* Vermelho */
             color: #fff;
             padding: 20px;
             text-align: center;
         }
         header h1 {
             margin: 0;
-            font-size: 1.5em;
+            font-size: 1.8em;
         }
         .dashboard {
             display: flex;
-            justify-content: space-around;
-            background-color: #007bff;
-            color: white;
+            justify-content: space-between;
+            background-color: #545454; /* Cinza */
+            color: #fff;
             padding: 15px;
             font-size: 1.2em;
             text-align: center;
+            border-radius: 8px;
+            margin: 15px;
         }
         .dashboard div {
             flex: 1;
             margin: 0 10px;
+            background-color: #404040; /* Tom mais escuro de cinza */
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .dashboard h2 {
+            font-size: 1.1em;
+            color: #feef08; /* Amarelo para destaque */
         }
         .form-section {
             padding: 20px;
+            background-color: #545454; /* Cinza */
+            border-radius: 10px;
         }
         .form-section h2 {
             text-align: center;
-			font-size: 1.0em;
+            font-size: 1.1em;
             margin-bottom: 10px;
-            color: #004080;
+            color: #feef08; /* Amarelo para o título */
         }
         input[type="text"] {
             width: 100%;
@@ -58,11 +70,12 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 1em;
+            color: #333;
         }
         button {
             width: 100%;
             padding: 10px;
-            background: #28a745;
+            background: #ec3426; /* Vermelho */
             border: none;
             border-radius: 5px;
             font-size: 1em;
@@ -70,11 +83,12 @@
             cursor: pointer;
         }
         button:hover {
-            background: #218838;
+            background: #d02a1e; /* Vermelho mais escuro */
         }
         #result {
             margin-top: 20px;
             font-size: 1.1em;
+            text-align: center;
         }
         .error {
             color: red;
@@ -83,8 +97,8 @@
             color: green;
         }
         footer {
-            background: #f1f4f9;
-            color: #666;
+            background: #545454; /* Cinza */
+            color: #fff;
             text-align: center;
             padding: 10px;
             font-size: 0.9em;
@@ -98,10 +112,19 @@
         </header>
         <div class="dashboard">
 		
-		<div><h2>Carros nas Bases </h2>
-            <div id="carrosSaoLeopoldo">Carros em São Leopoldo: 0</div>
-            <div id="carrosCanoas">Carros em Canoas: 0</div>
-       </div></div>
+            <div>
+                <h2>Base Canoas</h2>
+                
+                <div id="carrosCanoas"> 0</div>
+            </div>
+			
+			<div>
+                <h2>Base São Leopoldo</h2>
+                
+                <div id="carrosSaoLeopoldo"> 0</div>
+            </div>
+            
+        </div>
         <div class="form-section">
             <h2>Informe a placa do veículo ou insira qualquer caractere relacionado à placa para realizar a consulta.</h2>
             <form id="placaForm"><br>
@@ -165,8 +188,8 @@
             const carrosSaoLeopoldo = Object.values(bancoDeDados).filter(dado => dado.setor.includes("SÃO LEOPOLDO")).length;
             const carrosCanoas = Object.values(bancoDeDados).filter(dado => dado.setor.includes("CANOAS")).length;
 
-            document.getElementById("carrosSaoLeopoldo").textContent = `São Leopoldo: ${carrosSaoLeopoldo}`;
-            document.getElementById("carrosCanoas").textContent = `Canoas: ${carrosCanoas}`;
+            document.getElementById("carrosSaoLeopoldo").textContent = ` ${carrosSaoLeopoldo}`;
+            document.getElementById("carrosCanoas").textContent = ` ${carrosCanoas}`;
         }
 
         // Função para consultar o veículo
