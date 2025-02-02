@@ -1,186 +1,220 @@
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta de Veículo - Sebratel</title>
+    <title>Consulta de Veículos - Sebratel</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f1f4f9;
-            color: #333;
+        /* Reset básico */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
         .container {
-            max-width: 700px;
-            margin: 50px auto;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
+
         header {
-            background: #ec3426; /* Vermelho */
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
             color: #fff;
-            padding: 20px;
+            padding: 30px;
             text-align: center;
         }
+
         header h1 {
+            font-size: 2.2em;
+            font-weight: 700;
             margin: 0;
-            font-size: 1.8em;
         }
+
         .dashboard {
             display: flex;
             justify-content: space-between;
-            background-color: #545454; /* Cinza */
-            color: #fff;
-            padding: 15px;
-            font-size: 1.2em;
-            text-align: center;
-            border-radius: 8px;
-            margin: 15px;
+            gap: 20px;
+            padding: 20px;
+            background-color: #ffffff;
         }
+
         .dashboard div {
             flex: 1;
-            margin: 0 10px;
-            background-color: #404040; /* Tom mais escuro de cinza */
-            border-radius: 8px;
-            padding: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        .dashboard h2 {
-            font-size: 1.1em;
-            color: #feef08; /* Amarelo para destaque */
-        }
-        .form-section {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
             padding: 20px;
-            background-color: #545454; /* Cinza */
             border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
+
+        .dashboard h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .dashboard div span {
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+
+        .form-section {
+            padding: 30px;
+            background-color: #ffffff;
+        }
+
         .form-section h2 {
             text-align: center;
-            font-size: 1.1em;
-            margin-bottom: 10px;
-            color: #feef08; /* Amarelo para o título */
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            color: #2575fc;
+            font-weight: 600;
         }
+
         input[type="text"] {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
             font-size: 1em;
             color: #333;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s ease;
         }
+
+        input[type="text"]:focus {
+            border-color: #2575fc;
+            outline: none;
+        }
+
         button {
             width: 100%;
-            padding: 10px;
-            background: #ec3426; /* Vermelho */
+            padding: 12px;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 1em;
-            color: white;
+            color: #fff;
             cursor: pointer;
+            transition: opacity 0.3s ease;
         }
+
         button:hover {
-            background: #d02a1e; /* Vermelho mais escuro */
+            opacity: 0.9;
         }
+
         #result {
             margin-top: 20px;
             font-size: 1.1em;
             text-align: center;
         }
+
         .error {
-            color: red;
+            color: #ff4757;
         }
+
         .success {
-            color: green;
+            color: #2ed573;
         }
+
         footer {
-            background: #545454; /* Cinza */
-            color: #fff;
+            background: #f0f4f8;
+            color: #333;
             text-align: center;
-            padding: 10px;
+            padding: 15px;
             font-size: 0.9em;
+            border-top: 1px solid #ddd;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Consulta de Veículos Instalação Sebratel</h1>
+            <h1>Consulta de Veículos - Sebratel</h1>
         </header>
         <div class="dashboard">
-		
             <div>
                 <h2>Base Canoas</h2>
-                
-                <div id="carrosCanoas"> 0</div>
+                <span id="carrosCanoas">0</span>
             </div>
-			
-			<div>
+            <div>
                 <h2>Base SLE</h2>
-                
-                <div id="carrosSaoLeopoldo"> 0</div>
+                <span id="carrosSaoLeopoldo">0</span>
             </div>
-            
         </div>
         <div class="form-section">
-            <h2>Informe a placa do veículo ou insira qualquer caractere relacionado à placa para realizar a consulta.</h2>
-            <form id="placaForm"><br>
+            <h2>Informe a placa do veículo ou parte dela para consultar</h2>
+            <form id="placaForm">
                 <input type="text" id="placaInput" placeholder="Exemplo: SYM3J77 ou 77" required>
                 <button type="button" onclick="consultarVeiculo()">Consultar</button>
             </form>
             <div id="result"></div>
         </div>
+        <footer>
+            © 2024 Sebratel - Desenvolvido por Pablo Borges
+        </footer>
     </div>
-    <footer>
-        © 2024 Sebratel - Desenvolvido por Pablo Borges
-    </footer>
 
     <script>
         // Banco de dados com todos os carros e informações
         const bancoDeDados = {
             "SYM3J77": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Thailor Gabriel Luz Machado", "Anderson Costa de Souza"] },
-    "SYM3J05": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Eduardo de Souza Fernande", "Igor Alexandre Nunes Firmino"] },
-    "SYM4A56": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Leonardo Peixoto Escarcel", "Anderson Soares Dias"] },
-    "SYM3J01": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Nikolas João Scheeren Motta", "Fabio Ferreira de Oliveira Junior"] },
-    "SYM3J34": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Clovis Alessandro da Silva", "Kanã Rodrigues"] },
-    "SYM-3J86": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Valdenir de Oliveira", "Denner Alves"] },
-    "SYM-3I74": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Wellington Raphael Taborda da Silveira", "Jairo Valada de Oliveira"] },
-    "SEM CARRO": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Cassio Valmir Ferreira Ramos", "Matheus Lopes Lemos"] },
-    "SYM3J56": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Maicon Rangel de Mattos", "Francisco Javier"] },
-    "SYM3J90": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Jorge Murilo da Silva Junior", "João Osório"] },
-    "SYM4A76": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["André Fernando dos Santos", "Lucas Sesterhenn de Oliveira"] },
-    "SYM3J85": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Adriano dos Santos", "Jacson de Oliveira Rangel"] },
-    "SYM4A24": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Gabriel Rocha de Medeiros", "Kauan Gomes de Freita"] },
-    "SYM4A05": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Luiz Felipe Hack", "Jeferson Mateus Boava Rodrigues"] },
-    "SYM3I57": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Anderson Silveira de Matos", "Willian dos Santos de Aruda"] },
-    "SYM3J55": { setor: "Instalação FTTX CANOAS", tecnicos: ["ELIEL RIBEIRO MACHADO", "WILLIAN CRUZ DA ROSA"] },
-    "SYM3J80": { setor: "Instalação FTTX CANOAS", tecnicos: ["JOÃO PEDRO CASTRO DA CONCEIÇÃO", "MARCELO MENDES BRITO"] },
-    "SYM3J40": { setor: "Instalação FTTX CANOAS", tecnicos: ["MARCOS WESLEY ALVES RODRIGUES", "MARCOS AURÉLIO BUENO JUNIOR"] },
-    "SYL1E02": { setor: "Instalação FTTX CANOAS", tecnicos: ["JEAN GABRIEL ZANETTI", "GUILHERME DUARTE DE SOUZA"] },
-    "SYM3J70": { setor: "Instalação FTTX CANOAS", tecnicos: ["GABRIEL OLIVEIRA FRANCO", "GABRIEL SILVA DE MORAES"] },
-    "SYL7C98": { setor: "Instalação FTTX CANOAS", tecnicos: ["ROSALVO GONÇALVES VILA", "MARCOS PAULO DE ABREU"] },
-    "SYM3I87": { setor: "Instalação FTTX CANOAS", tecnicos: ["JEAN DE SOUZA PEREIRA", "LUCAS DE SOUZA PEREIRA"] },
-    "SYL7D91": { setor: "Instalação FTTX CANOAS", tecnicos: ["DJONATAN", "FELIPE DA SILVEIRA RIBEIRO"] },
-    "SYM3I80": { setor: "Instalação FTTX CANOAS", supervisor: ["PABLO BORGES"] },
-    "SYM4A52": { setor: "Instalação FTTX CANOAS", tecnicos: ["JOÃO VITOR LOPES DA SILVA"] },
-    "SYM3J79": { setor: "Instalação FTTX CANOAS", tecnicos: ["GABRIEL HEBERLE DE SOUZA", "JOAO VITOR SILVA BRITO"] },
-    "SYL1D98": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Carro de Canoas, foi emprestado para São Leopoldo"] },
-    "SYM3I70": { setor: "Instalação FTTX CANOAS", tecnicos: ["HELSON DE OLIVEIRA FRITSCHER", "ISMAEL CARNEIRO DA ROSA"] },
-    "SYM3J07": { setor: "Instalação FTTX CANOAS", tecnicos: ["LUCAS CAMARGO DOS ANJOS", "DIEGO MALAQUIAS"] },
-    "SYM3J71": { setor: "Instalação FTTX CANOAS", tecnicos: ["ANDERSON FRANCISCO", "LUCAS LORENÇO"] },
-    "SYL7C97": { setor: "Instalação FTTX CANOAS", tecnicos: ["IGOR GOMES MARTINS", "CARLOS AUGUSTO GARCIA DE ANDRADE"] },
-    "SYM3J82": { setor: "Instalação FTTX CANOAS", auxSupervisao: ["LUCAS DUARTE DE SOUZA"] },
-    "SYM3J29": { setor: "Instalação FTTX CANOAS", tecnicos: ["VICTOR DA SILVA LYRA", "MARCELO MACHADO MUNHOZ JUNIOR"] },
-    "SYM3I59": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Carro de Canoas, foi emprestado para São Leopoldo"] },
-    "SYM3I60": { setor: "Instalação FTTX CANOAS", tecnicos: ["VINICIUS SIMOES DE VARGAS"] },
-    "SYM4A53": { setor: "Instalação FTTX CANOAS", tecnicos: ["DAVI LAMB"] },
-    "SYM4E16": { setor: "Instalação FTTX CANOAS", tecnicos: ["RENATO RANIELI BARRETO FREITAS"] },
-    "SYM4A61": { setor: "Instalação FTTX CANOAS", tecnicos: ["ALEXSANDRO MOREIRA DOS SANTOS"] },
-    "SYM3J65": { setor: "Instalação FTTX CANOAS", supervisor: ["LUIS FELIPE N. ARANDA"] },
-    "SYM3J09": { setor: "Instalação FTTX CANOAS", tecnicos: ["RICARDO DANIEL"] }
+            "SYM3J05": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Eduardo de Souza Fernande", "Igor Alexandre Nunes Firmino"] },
+            "SYM4A56": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Leonardo Peixoto Escarcel", "Anderson Soares Dias"] },
+            "SYM3J01": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Nikolas João Scheeren Motta", "Fabio Ferreira de Oliveira Junior"] },
+            "SYM3J34": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Clovis Alessandro da Silva", "Kanã Rodrigues"] },
+            "SYM-3J86": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Valdenir de Oliveira", "Denner Alves"] },
+            "SYM-3I74": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Wellington Raphael Taborda da Silveira", "Jairo Valada de Oliveira"] },
+            "SEM CARRO": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Cassio Valmir Ferreira Ramos", "Matheus Lopes Lemos"] },
+            "SYM3J56": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Maicon Rangel de Mattos", "Francisco Javier"] },
+            "SYM3J90": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Jorge Murilo da Silva Junior", "João Osório"] },
+            "SYM4A76": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["André Fernando dos Santos", "Lucas Sesterhenn de Oliveira"] },
+            "SYM3J85": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Adriano dos Santos", "Jacson de Oliveira Rangel"] },
+            "SYM4A24": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Gabriel Rocha de Medeiros", "Kauan Gomes de Freita"] },
+            "SYM4A05": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Luiz Felipe Hack", "Jeferson Mateus Boava Rodrigues"] },
+            "SYM3I57": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Anderson Silveira de Matos", "Willian dos Santos de Aruda"] },
+            "SYM3J55": { setor: "Instalação FTTX CANOAS", tecnicos: ["ELIEL RIBEIRO MACHADO", "WILLIAN CRUZ DA ROSA"] },
+            "SYM3J80": { setor: "Instalação FTTX CANOAS", tecnicos: ["JOÃO PEDRO CASTRO DA CONCEIÇÃO", "MARCELO MENDES BRITO"] },
+            "SYM3J40": { setor: "Instalação FTTX CANOAS", tecnicos: ["MARCOS WESLEY ALVES RODRIGUES", "MARCOS AURÉLIO BUENO JUNIOR"] },
+            "SYL1E02": { setor: "Instalação FTTX CANOAS", tecnicos: ["JEAN GABRIEL ZANETTI", "GUILHERME DUARTE DE SOUZA"] },
+            "SYM3J70": { setor: "Instalação FTTX CANOAS", tecnicos: ["GABRIEL OLIVEIRA FRANCO", "GABRIEL SILVA DE MORAES"] },
+            "SYL7C98": { setor: "Instalação FTTX CANOAS", tecnicos: ["ROSALVO GONÇALVES VILA", "MARCOS PAULO DE ABREU"] },
+            "SYM3I87": { setor: "Instalação FTTX CANOAS", tecnicos: ["JEAN DE SOUZA PEREIRA", "LUCAS DE SOUZA PEREIRA"] },
+            "SYL7D91": { setor: "Instalação FTTX CANOAS", tecnicos: ["DJONATAN", "FELIPE DA SILVEIRA RIBEIRO"] },
+            "SYM3I80": { setor: "Instalação FTTX CANOAS", supervisor: ["PABLO BORGES"] },
+            "SYM4A52": { setor: "Instalação FTTX CANOAS", tecnicos: ["JOÃO VITOR LOPES DA SILVA"] },
+            "SYM3J79": { setor: "Instalação FTTX CANOAS", tecnicos: ["GABRIEL HEBERLE DE SOUZA", "JOAO VITOR SILVA BRITO"] },
+            "SYL1D98": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Carro de Canoas, foi emprestado para São Leopoldo"] },
+            "SYM3I70": { setor: "Instalação FTTX CANOAS", tecnicos: ["HELSON DE OLIVEIRA FRITSCHER", "ISMAEL CARNEIRO DA ROSA"] },
+            "SYM3J07": { setor: "Instalação FTTX CANOAS", tecnicos: ["LUCAS CAMARGO DOS ANJOS", "DIEGO MALAQUIAS"] },
+            "SYM3J71": { setor: "Instalação FTTX CANOAS", tecnicos: ["ANDERSON FRANCISCO", "LUCAS LORENÇO"] },
+            "SYL7C97": { setor: "Instalação FTTX CANOAS", tecnicos: ["IGOR GOMES MARTINS", "CARLOS AUGUSTO GARCIA DE ANDRADE"] },
+            "SYM3J82": { setor: "Instalação FTTX CANOAS", auxSupervisao: ["LUCAS DUARTE DE SOUZA"] },
+            "SYM3J29": { setor: "Instalação FTTX CANOAS", tecnicos: ["VICTOR DA SILVA LYRA", "MARCELO MACHADO MUNHOZ JUNIOR"] },
+            "SYM3I59": { setor: "Instalação FTTX SÃO LEOPOLDO", tecnicos: ["Carro de Canoas, foi emprestado para São Leopoldo"] },
+            "SYM3I60": { setor: "Instalação FTTX CANOAS", tecnicos: ["VINICIUS SIMOES DE VARGAS"] },
+            "SYM4A53": { setor: "Instalação FTTX CANOAS", tecnicos: ["DAVI LAMB"] },
+            "SYM4E16": { setor: "Instalação FTTX CANOAS", tecnicos: ["RENATO RANIELI BARRETO FREITAS"] },
+            "SYM4A61": { setor: "Instalação FTTX CANOAS", tecnicos: ["ALEXSANDRO MOREIRA DOS SANTOS"] },
+            "SYM3J65": { setor: "Instalação FTTX CANOAS", supervisor: ["LUIS FELIPE N. ARANDA"] },
+            "SYM3J09": { setor: "Instalação FTTX CANOAS", tecnicos: ["RICARDO DANIEL"] }
         };
 
         // Atualiza o dashboard com a quantidade de veículos
@@ -188,8 +222,8 @@
             const carrosSaoLeopoldo = Object.values(bancoDeDados).filter(dado => dado.setor.includes("SÃO LEOPOLDO")).length;
             const carrosCanoas = Object.values(bancoDeDados).filter(dado => dado.setor.includes("CANOAS")).length;
 
-            document.getElementById("carrosSaoLeopoldo").textContent = ` ${carrosSaoLeopoldo}`;
-            document.getElementById("carrosCanoas").textContent = ` ${carrosCanoas}`;
+            document.getElementById("carrosSaoLeopoldo").textContent = carrosSaoLeopoldo;
+            document.getElementById("carrosCanoas").textContent = carrosCanoas;
         }
 
         // Função para consultar o veículo
@@ -222,10 +256,10 @@
                         detalhes += `<p><strong>Técnicos:</strong> ${dados.tecnicos.join(", ")}</p>`;
                     }
                     if (dados.supervisor) {
-                        detalhes += `<p><strong>Supervisor:</strong> ${dados.supervisor.join(", ")}</p>`;  // Corrigido para 'supervisor'
+                        detalhes += `<p><strong>Supervisor:</strong> ${dados.supervisor.join(", ")}</p>`;
                     }
                     if (dados.auxSupervisao) {
-                        detalhes += `<p><strong>AUX Supervisão:</strong> ${dados.auxSupervisao.join(", ")}</p>`; // Corrigido para 'auxSupervisao'
+                        detalhes += `<p><strong>AUX Supervisão:</strong> ${dados.auxSupervisao.join(", ")}</p>`;
                     }
 
                     resultDiv.innerHTML += `${detalhes}<hr>`;
